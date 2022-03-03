@@ -16,10 +16,10 @@ function Cube(gl) {
         -1,  1,  1,
 
         //Back 4
-        -1, -1,  -1,
-         1, -1,  -1,
-         1,  1,  -1, 
-        -1,  1,  -1,
+        -1, -1, -1,
+         1, -1, -1,
+         1,  1, -1, 
+        -1,  1, -1,
         
     ];
     
@@ -89,8 +89,7 @@ function Cube(gl) {
         MV : gl.getUniformLocation(this.program, "MV"),
         P  : gl.getUniformLocation(this.program, "P")
     };
-    // MV = gl.getUniformLocation(this.program, "MV");
-    // P = gl.getUniformLocation(this.program, "P");
+
     this.MV = mat4(); //mat4(), ya boi, is in MV.js apparently
     this.P = mat4();
 

@@ -29,20 +29,22 @@ function init(){
     requestAnimationFrame(render);
 }
 
-function resize(){
-    var width = canvas.clientWidth,
-        height = canvas.clientHeight;
 
-    gl.viewport(0, 0, width, height)
-    let aspect = width/height;
-    P = perspective(fovy, aspect, near, far)
-}
-window.onresize = resize;
+// function resize(){
+//     var width = canvas.clientWidth,
+//         height = canvas.clientHeight;
+
+//     gl.viewport(0, 0, width, height)
+//     let aspect = width/height;
+//     let fovy = 75 * Math.PI/180
+//     P = perspective(fovy, aspect, near, far)
+// }
+// window.onresize = resize;
 
 function render(){
     gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
     
-    angle += 0.1;
+    angle += 0.13;
     cube.MV = rotate(angle, [1, 1, 1]); //rotation dark magic axis (1, 1, 1)
     
     cube.render();
