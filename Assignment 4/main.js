@@ -3,6 +3,40 @@
 
 var gl;
 
+var Sun;
+var Earth;
+var Moon;
+
+var ms;
+
+var near;
+var far;
+
+var year;
+var day;
+var axis;
+
+// Worksheet stuff? Not sure if I need them all, but what's a few bytes between friends?
+var aspect
+var near
+var far
+var fovy
+var distance
+
+/*
+
+    sun radius = 10
+    earth radius = 5
+        earth orbit = 20
+    moon radius = 2
+        moon orbit = 10
+    
+    
+    diameter (D) = 64
+    
+
+*/
+
 function init() {
     var canvas = document.getElementById("webgl-canvas");
     gl = canvas.getContext("webgl2");
@@ -15,9 +49,29 @@ function init() {
     Earth = new Sphere();
     Moon = new Sphere();
 
+    year = 365
+    day = 1 
+
+    aspect = 1
+    near = 6
+    far = 70
+    fovy = 114.726205
+
+    distance = 64
+
+    axis = [0.0, 0.0, 1.0]
+
     Sun.radius = 10
     Earth.radius = 5
     Moon.radius = 2
+
+    Earth.orbit = 20
+    Moon.orbit = 10
+
+    year = 365
+    day = 1
+
+
 
     requestAnimationFrame(render);
 }
@@ -57,7 +111,7 @@ function render() {
     gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
     
     // Add your rendering sequence here
-    sun.render()
+    Sun.render()
 
     requestAnimationFrame(render);
 }
