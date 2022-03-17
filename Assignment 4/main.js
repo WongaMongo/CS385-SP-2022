@@ -76,21 +76,23 @@ function init() {
     
     
     
+    
     requestAnimationFrame(render);
 }
 
 function render() {
     
     // Update your motion variables here
-    // fovy = 114.726205
-    fovy = 114
+    fovy = 114.726205
+    // fovy = 114
     // fovy = 25
     aspect = 1
     near = 6
     far = 70
-    axis = [0.0, 0.0, 1.0]
-    year = 365.25
-    day = 1
+    axis = [0.0, 1.0, 1.0]
+    year = t / 4
+    day = t / HoursPerYear * 360
+
     distance = 64
     // theta = delta times time?
     // or maybe we're incrementing t by hours?
@@ -107,6 +109,7 @@ function render() {
     ms.push();
     ms.scale(Sun.radius);
     // Sun reads the stack
+    Sun.P = P
     Sun.MV = ms.current();
     // Sun render's
     Sun.render();
@@ -134,6 +137,7 @@ function render() {
     // Scaling earth coords
     ms.scale(Earth.radius);
     // Read stack to assign new Earth mv value
+    Earth.P = P
     // Earth reads from the stack
     Earth.MV = ms.current();
 
@@ -148,6 +152,7 @@ function render() {
     ms.translate(Moon.distance, 0, 0);
     // Scaling moon coords
     ms.scale(Moon.radius);
+    Moon.P = P
     // Moon reads from the stack
     Moon.MV = ms.current();
     // Moon's rendered
@@ -161,11 +166,8 @@ function render() {
     gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
     
     // Add your rendering sequence here
-    Sun.P = P;
     Sun.render()
-    Earth.P = P;
     Earth.render()
-    Moon.P = P
     Moon.render()
 
     requestAnimationFrame(render);
