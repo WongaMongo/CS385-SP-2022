@@ -66,8 +66,8 @@ function init() {
 
     
     
-    // Sun.radius = 10
-    Sun.radius = 696340
+    Sun.radius = 10
+    // Sun.radius = 696340
     Earth.radius = 5
     Moon.radius = 2
     
@@ -82,7 +82,9 @@ function init() {
 function render() {
     
     // Update your motion variables here
-    fovy = 114.726205
+    // fovy = 114.726205
+    fovy = 114
+    // fovy = 25
     aspect = 1
     near = 6
     far = 70
@@ -159,10 +161,8 @@ function render() {
     gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
     
     // Add your rendering sequence here
-    // var S = scale(Sun.radius)
-    // Sun.P = P;
-    // Sun.MV = mult(V, S);
-    // Sun.render()
+    Sun.P = P;
+    Sun.render()
 
     requestAnimationFrame(render);
 }
