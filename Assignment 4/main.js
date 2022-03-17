@@ -163,6 +163,10 @@ function render() {
     // Add your rendering sequence here
     Sun.P = P;
     Sun.render()
+    Earth.P = P;
+    Earth.render()
+    Moon.P = P
+    Moon.render()
 
     requestAnimationFrame(render);
 }
