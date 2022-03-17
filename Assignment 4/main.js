@@ -76,7 +76,6 @@ function init() {
     
     
     
-    
     requestAnimationFrame(render);
 }
 
@@ -88,7 +87,7 @@ function render() {
     // fovy = 25
     aspect = 1
     near = 6
-    far = 70
+    far = 200
     axis = [0.0, 1.0, 1.0]
     year = t / 4
     day = t / HoursPerYear * 360
@@ -149,7 +148,7 @@ function render() {
     ms.pop;
     
     // Changing moon coord system
-    ms.translate(Moon.distance, 0, 0);
+    ms.translate(distance/10, 0, 0);
     // Scaling moon coords
     ms.scale(Moon.radius);
     Moon.P = P
