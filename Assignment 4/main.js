@@ -89,10 +89,10 @@ function render() {
     D = 2 * (Earth.orbit + Moon.orbit + Moon.radius)    
     fovy = 71.6957758
     aspect = 1
-    // near = 150
-    near = 450
+    near = 150
+    // near = 350
     far = D + near
-    axis = [0.0, 0.0, 1.0]
+    axis = [0.0, 1.0, 1.0]
     year = t / 4
     day = t / HoursPerYear * 360
 
@@ -154,9 +154,9 @@ function render() {
     ms.pop;
     
     // Changing moon coord system
-    ms.translate(Moon.distance, 0, 0);
+    ms.translate(Moon.distance/5, 0, 0);
     // Scaling moon coords
-    ms.scale(Moon.radius);
+    ms.scale(Moon.radius/4);
     // Moon get's its relative perspective
     Moon.P = P
     Moon.color = vec4(0.9, 0.9, 0.9, 1.0)
