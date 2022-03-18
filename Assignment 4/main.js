@@ -26,7 +26,9 @@ var aspect
 var near
 var far
 var fovy
-var distance
+var distance = 64
+
+var D
 
 /*
 
@@ -66,14 +68,16 @@ function init() {
 
     
     
-    Sun.radius = 10
+    Sun.radius = 30
     // Sun.radius = 696340
-    Earth.radius = 5
+    Earth.radius = 10
     Moon.radius = 2
     
-    Earth.orbit = 20
+    Earth.orbit = 180
     Moon.orbit = 10
-    
+
+    Earth.distance = Earth.orbit
+    Moon.distance = Moon.orbit
     
     
     requestAnimationFrame(render);
@@ -82,17 +86,16 @@ function init() {
 function render() {
     
     // Update your motion variables here
-    fovy = 114.726205
-    // fovy = 114
-    // fovy = 25
+    D = 2 * (Earth.orbit + Moon.orbit + Moon.radius)    
+    fovy = 71.6957758
     aspect = 1
-    near = 6
-    far = 200
-    axis = [0.0, 1.0, 1.0]
+    // near = 150
+    near = 450
+    far = D + near
+    axis = [0.0, 0.0, 1.0]
     year = t / 4
     day = t / HoursPerYear * 360
 
-    distance = 64
     // theta = delta times time?
     // or maybe we're incrementing t by hours?
     // t += distance * t
@@ -109,6 +112,7 @@ function render() {
     ms.scale(Sun.radius);
     // Sun reads the stack
     Sun.P = P
+    Sun.color = vec4(0.9, 0.9, 0.1, 1.0)
     Sun.MV = ms.current();
     // Sun render's
     Sun.render();
@@ -121,22 +125,24 @@ function render() {
     ms.rotate(year, axis);
 
     // Changing Earth coord system
-    ms.translate(distance, 0, 0);
+    ms.translate(Earth.distance, 0, 0);
     // Pushing to seperate the earth data
     // This is so that the earth data we don't need for the moon
     // just gets the boot
     ms.push();
+    ms.rotate(day, axis);
     // Possibly include rotate above this push?
     // Hard to tell since he specifies 
     // The earth orbits the sun, the moon orbits the sun
     // Did he mean the earth orbits the sun, the moon orbits the earth?
 
     // Earth's daily revolution
-    ms.rotate(day, axis);
     // Scaling earth coords
     ms.scale(Earth.radius);
-    // Read stack to assign new Earth mv value
+    // Earth gets it's relative perspective
     Earth.P = P
+    Earth.color = vec4(0.222, 0.933, 0.655, 1.0)
+    // Read stack to assign new Earth mv value
     // Earth reads from the stack
     Earth.MV = ms.current();
 
@@ -148,10 +154,12 @@ function render() {
     ms.pop;
     
     // Changing moon coord system
-    ms.translate(distance/10, 0, 0);
+    ms.translate(Moon.distance, 0, 0);
     // Scaling moon coords
     ms.scale(Moon.radius);
+    // Moon get's its relative perspective
     Moon.P = P
+    Moon.color = vec4(0.9, 0.9, 0.9, 1.0)
     // Moon reads from the stack
     Moon.MV = ms.current();
     // Moon's rendered
