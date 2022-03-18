@@ -89,7 +89,7 @@ function render() {
     D = 2 * (Earth.orbit + Moon.orbit + Moon.radius)    
     fovy = 71.6957758
     aspect = 1
-    near = 150
+    near = 200
     // near = 350
     far = D + near
     axis = [0.0, 1.0, 1.0]
