@@ -1,18 +1,22 @@
 
 
 const img = new Image();
-img.src = './wicked.png'
+img.src = './wicked.jpg';
 
-window.onload = function(){
+console.log("Yo")
+
     
-    var canvas = document.getElementById("canvas");
-    var context = canvas.getContext("2d");
-    context.fillStyle = "#000000";
-    context.fillRect(0, 0, 0, 0)
-    img.onload = () =>{
-        context.drawImage("img", 0, 0, 0, 0, 960, 600);
-    }
+const canvas = document.getElementById("canvas");
+const context = canvas.getContext("2d");
+// context.fillStyle = "#000000";
+// context.fillRect(0, 0, 0, 0)
+img.onload = () =>{
+    console.log("here")
+    context.drawImage(img, 0, 0, 960, 600, 0, 0, 960, 600);
 }
+
+
+console.log("Ye")
 
 var clicks = 0;
 function countClicks(){
