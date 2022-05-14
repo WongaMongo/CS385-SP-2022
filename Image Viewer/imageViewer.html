@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 
 <html style="background-color:#011314; text-align:center;">
-            <button onclick="countClicks()" style="cursor: pointer; margin-top: 5px; margin-bottom: 10px;">Click me!</button>
-            <!-- <button onclick="revealImage()">Reveal image</button> -->
-            <canvas 
-            id="canvas" 
-            width = "1120" 
-            height = "700" 
-            style="
-                border:10px solid #009999; 
-                border-style: double; 
-                justify-content: center; 
-                display: block; 
-                margin: 0 auto;
-                " 
+        <button onclick="countClicks()" style="cursor: pointer; margin-top: 5px; margin-bottom: 10px;">Click me!</button>
+        <!-- <button onclick="revealImage()">Reveal image</button> -->
+        <canvas 
+                id="canvas" 
+                width = "1120" 
+                height = "700" 
+                style="
+                    border:10px solid #009999; 
+                    border-style: double; 
+                    justify-content: center; 
+                    display: block; 
+                    margin: 0 auto;
+                    " 
         >
         </canvas>
         <!-- <template name="sliders"> -->
-                <input id="pan" type="range" value="0" min="-100" max="100">
-                <output id="curPan" style="color:#009999">0</output>
+        
+        <input id="panX" type="range" value="0" min="-100" max="100">
+        <output id="curXPan" style="color:#009999">0</output>
 
-                <input id="zoom" type="range" value="0" min="-100" max="100">
-                <output id="curZoom" style="color:#009999">0</output>
-                
-                <input id="rotate" type="range" value="0" min="-100" max="100">
-                <output id="curRotate" style="color:#009999">0</output>
+        <input id="panY" type="range" value="0" min="-100" max="100">
+        <output id="curYPan" style="color:#009999">0</output>
+
+        <input id="zoom" type="range" value="0" min="-10" max="10">
+        <output id="curZoom" style="color:#009999;">0</output>
+        
+        <input id="rotate" type="range" value="0" min="-100" max="100">
+        <output id="curRotate" style="color:#009999">0</output>
 
         <!-- </template> -->
         <!-- <img id="mainPic" src="./wicked.jpg" alt="Yikes" style="width: 1000px; height:500px; cursor:pointer; justify-content: center; display: block; margin: 0 auto;"></img> -->

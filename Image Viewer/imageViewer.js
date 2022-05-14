@@ -25,37 +25,72 @@ console.log(`Canvas Resolution -> [H: ${canvas.height} | W: ${canvas.width}]`);
 var hRatio = canvas.height / img.height;
 var wRatio = canvas.width / img.width;
 var tRatio = Math.min(hRatio, wRatio)
+var scaleX = 1
+var scaleY = 1
 
 // Just fills the canvas background
 context.fillStyle = "#CCECEC";
 context.fillRect(0, 0, canvas.width, canvas.height)
 
-// After the image loads then I draw it into the canvas
+// After the image loads then I draw it onto the canvas
 img.onload = () => {
     console.log("here");
     context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
 }
 // context.scale(2, 2)
 
+// function reDrawImage(a, b, c, d, e, f, g, h){
+//     context.drawImage(img, a, b, c, d, e, f, g, h)
+// }
+
+
+
 console.log("Ye")
 
 // Getting slider values from the html
-var panValue = document.getElementById("pan");
+var panXValue = document.getElementById("panX");
+var panYValue = document.getElementById("panY");
 var zoomValue = document.getElementById("zoom");
 var rotateValue = document.getElementById("rotate");
 
 // Getting output values from the html
-var curPan = document.getElementById("curPan");
+var curXPan = document.getElementById("curXPan");
+var curYPan = document.getElementById("curYPan");
 var curZoom = document.getElementById("curZoom");
 var curRotate = document.getElementById("curRotate");
 
 // Updates the numbers by the sliders
-updatePan = () => { curPan.innerHTML = panValue.value; }
-updateZoom = () => { curZoom.innerHTML = zoomValue.value; }
+updateXPan = () => { curXPan.innerHTML = panXValue.value; }
+updateYPan = () => { curYPan.innerHTML = panYValue.value; }
+updateZoom = () => { 
+    curZoom.innerHTML = zoomValue.value; 
+    if(zoomValue.value < 0){
+        let temp = zoomValue.value;
+        temp *= -1;
+        temp = 1 - (temp / 10)
+        if(temp)
+            scaleX = scaleY = temp.toFixed(1);
+        else
+            scaleX = scaleY = 0.05
+    }
+    else if(zoomValue.value === "0")
+        scaleX = scaleY = 1;
+    else
+        scaleX = scaleY = zoomValue.value; 
+    console.log(`scales -> ${scaleX, scaleY}`)
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.scale(scaleX, scaleY);
+    // context.clearRect(0, 0, canvas.width, canvas.height)
+    context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+    // context.scale(scaleX, scaleY);
+}
 updateRotate = () => { curRotate.innerHTML = rotateValue.value; }
 
 // Event listeners, changes slider value when user changes value
-panValue.addEventListener('input', updatePan); updatePan();
+panXValue.addEventListener('input', updateXPan); updateXPan();
+panYValue.addEventListener('input', updateYPan); updateYPan();
 zoomValue.addEventListener('input', updateZoom); updateZoom();
 rotateValue.addEventListener('input', updateRotate); updateRotate();
 
