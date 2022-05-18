@@ -44,13 +44,6 @@ img.onload = () => {
     context.fillRect(0, 0, canvas.width, canvas.height)
     context.drawImage(img, XPan, YPan, img.width, img.height, 0, 0, canvas.width, canvas.height);
 }
-// context.scale(2, 2)
-
-// function reDrawImage(a, b, c, d, e, f, g, h){
-//     context.drawImage(img, a, b, c, d, e, f, g, h)
-// }
-
-
 
 console.log("Ye")
 
@@ -66,13 +59,23 @@ var curYPan = document.getElementById("curYPan");
 var curZoom = document.getElementById("curZoom");
 var curRotate = document.getElementById("curRotate");
 
-function reRender(){
-    context.setTransform(1, 0, 0, 1, 0, 0);
+// Might be toxic, but it functions so I can't complain
+// In order:
+//              Resets context to the size of the entire canvas
+//              Clears context, i.e. canvas area, then fills with filler color
+//              Sets context to X,Y panned position
+//              Scales context to scaled size
+//              Rotates context to current value
+//              Draws image in current context.
+
+function reDraw(){
+    context.setTransform(1, 0, 0, 1, 0, 0)
     context.clearRect(0, 0, canvas.width, canvas.height)
     context.fillRect(0, 0, canvas.width, canvas.height)
+    context.setTransform(1, 0, 0, 1, XPan * (scaleX > 1 ? scaleX : 1), YPan * (scaleY > 1 ? scaleY : 1));
     context.scale(scaleX, scaleY);
     context.rotate(rotation)
-    context.drawImage(img, XPan, YPan, img.width, img.height, 0, 0, canvas.width, canvas.height);
+    context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
 }
 
 // Updates the numbers by the sliders
@@ -82,8 +85,8 @@ updateXPan = () => {
     if(panXValue.value === "0")
         XPan = 0
     else
-        XPan = -20 * panXValue.value; 
-    reRender();
+        XPan = 12 * panXValue.value; 
+    reDraw();
 }
 updateYPan = () => { 
     curYPan.innerHTML = panYValue.value; 
@@ -91,8 +94,8 @@ updateYPan = () => {
     if(panYValue.value === "0")
         YPan = 0
     else
-        YPan = 10 * panYValue.value; 
-    reRender();
+        YPan = -8 * panYValue.value; 
+    reDraw();
 }
 updateZoom = () => { 
     curZoom.innerHTML = zoomValue.value; 
@@ -110,16 +113,16 @@ updateZoom = () => {
     else
         scaleX = scaleY = zoomValue.value; 
     console.log(`scales -> ${scaleX, scaleY}`)
-    reRender();
+    reDraw();
 }
 updateRotate = () => { 
     curRotate.innerHTML = rotateValue.value; 
     rotation = rotateValue.value * -(Math.PI / 60)
     
-    reRender();
-
+    reDraw();
+    // context.drawImage(img, -img.width/2, -img.height/2, img.width, img.height);
     console.log(`Rotate Value is: ${rotateValue.value}`)
-    console.log(`Rotation Value is: ${rotateValue.value * (Math.PI / 180)}`)
+    console.log(`Rotation Value is: ${rotation}`)
     // context.rotate(rotateValue.value * (Math.PI / 180))
 
 }
@@ -134,20 +137,18 @@ rotateValue.addEventListener('input', updateRotate); updateRotate();
 
 console.log("Doc")
 
-// Button clicking function
-// Just allows me to test methods and transformations
-// Before I catually code them in.
+// Resets the slider values, updates the values to reflect reset
+// Then clears the canvas and redraws image at original position
+function resetSliders(){
+    document.getElementById("panX").value = 0;
+    document.getElementById("panY").value = 0;
+    document.getElementById("zoom").value = 0;
+    document.getElementById("rotate").value = 0;
 
-var clicks = 0;
-function countClicks(){
-    clicks+= 1;
-    // img.width += 100
-    // canvas.width += 100
-    let a = 0
-    let b = 0
-    if(clicks % 2 === 0){ a = b = 0.5 }
-    else{ a = b = 2 }
-    context.scale(a, b)
-    img.src = './wicked.jpg'
-    document.getElementById("click").innerHTML = clicks;
+    updateXPan();
+    updateYPan();
+    updateZoom();
+    updateRotate();
+
+    reDraw();
 }
