@@ -31,6 +31,8 @@ var scaleY = 1
 var XPan = 0
 var YPan = 0
 
+var rotation = 0
+
 // Just fills the canvas background
 context.fillStyle = "#CCECEC";
 context.fillRect(0, 0, canvas.width, canvas.height)
@@ -64,6 +66,15 @@ var curYPan = document.getElementById("curYPan");
 var curZoom = document.getElementById("curZoom");
 var curRotate = document.getElementById("curRotate");
 
+function reRender(){
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.scale(scaleX, scaleY);
+    context.rotate(rotation)
+    context.drawImage(img, XPan, YPan, img.width, img.height, 0, 0, canvas.width, canvas.height);
+}
+
 // Updates the numbers by the sliders
 updateXPan = () => { 
     curXPan.innerHTML = panXValue.value;
@@ -71,25 +82,17 @@ updateXPan = () => {
     if(panXValue.value === "0")
         XPan = 0
     else
-        XPan = 10 * panXValue.value; 
-    context.setTransform(1, 0, 0, 1, 0, 0);
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    context.fillRect(0, 0, canvas.width, canvas.height)
-    context.scale(scaleX, scaleY);
-    context.drawImage(img, XPan, YPan, img.width, img.height, 0, 0, canvas.width, canvas.height);
+        XPan = -20 * panXValue.value; 
+    reRender();
 }
 updateYPan = () => { 
     curYPan.innerHTML = panYValue.value; 
-    console.log(panYValue.value)
+    console.log(`Pan Value: ${panYValue.value}`)
     if(panYValue.value === "0")
         YPan = 0
     else
-        YPan = -10 * panYValue.value; 
-    context.setTransform(1, 0, 0, 1, 0, 0);
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    context.fillRect(0, 0, canvas.width, canvas.height)
-    context.scale(scaleX, scaleY);
-    context.drawImage(img, XPan, YPan, img.width, img.height, 0, 0, canvas.width, canvas.height);
+        YPan = 10 * panYValue.value; 
+    reRender();
 }
 updateZoom = () => { 
     curZoom.innerHTML = zoomValue.value; 
@@ -107,15 +110,19 @@ updateZoom = () => {
     else
         scaleX = scaleY = zoomValue.value; 
     console.log(`scales -> ${scaleX, scaleY}`)
-    context.setTransform(1, 0, 0, 1, 0, 0);
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    context.fillRect(0, 0, canvas.width, canvas.height)
-    context.scale(scaleX, scaleY);
-    // context.clearRect(0, 0, canvas.width, canvas.height)
-    context.drawImage(img, XPan, YPan, img.width, img.height, 0, 0, canvas.width, canvas.height);
-    // context.scale(scaleX, scaleY);
+    reRender();
 }
-updateRotate = () => { curRotate.innerHTML = rotateValue.value; }
+updateRotate = () => { 
+    curRotate.innerHTML = rotateValue.value; 
+    rotation = rotateValue.value * -(Math.PI / 60)
+    
+    reRender();
+
+    console.log(`Rotate Value is: ${rotateValue.value}`)
+    console.log(`Rotation Value is: ${rotateValue.value * (Math.PI / 180)}`)
+    // context.rotate(rotateValue.value * (Math.PI / 180))
+
+}
 
 // Event listeners, changes slider value when user changes value
 // Moves those values in js to perform transformations
