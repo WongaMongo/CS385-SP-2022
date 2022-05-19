@@ -3,11 +3,22 @@
 // Draw image only allows data in certain forms. 
 // A normal image is not a that form
 // This allows an image to be a HTMLImageElement
-const img = new Image();
-img.src = './wicked.jpg';
+
+var img = new Image();
+
+// Start with default image
+if(img.src === "")
+    img.src = './banner.png';
+
+// User image upload function
+var imgGet = document.querySelector('input[type="file"]').addEventListener('change', 
+    function(){
+        if(this.files && this.files[0]){
+            img.src = URL.createObjectURL(this.files[0]);
+        }
+});
 
 console.log("Yo");
-
 console.log(`Image Resolution  -> [H: ${img.height} | W: ${img.width}]`);
 
 // Getting canvas proportions from the html
@@ -18,13 +29,7 @@ const context = canvas.getContext("2d");
 
 console.log(`Canvas Resolution -> [H: ${canvas.height} | W: ${canvas.width}]`);
 
-// Scaling which I couldn't get right and needed to look up
-// Apparently this is the scaling norm for canvas and images on html
-// I'm not sure why it uses the lesser of height and width, 
-// instead of height for height, width for width, but if it works. . .
-var hRatio = canvas.height / img.height;
-var wRatio = canvas.width / img.width;
-var tRatio = Math.min(hRatio, wRatio)
+// Changing variables
 var scaleX = 1
 var scaleY = 1
 
